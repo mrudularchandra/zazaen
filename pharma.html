@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharmaceutical | ZaZen Systems</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        midnight: '#0A1628',
+                        'navy-deep': '#0F1D32',
+                        'navy-light': '#1A2B47',
+                        'electric-green': '#00D084',
+                        'electric-green-glow': '#00FF9D',
+                        'electric-blue': '#00A8FF',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                        display: ['Space Grotesk', 'Inter', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        *::before, *::after { box-sizing: border-box; }
+        html, body { margin: 0; padding: 0; }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Theme Variables - Dark (default) */
+        :root {
+            --bg-primary: #0A1628;
+            --bg-secondary: #0F1D32;
+            --bg-card: rgba(255, 255, 255, 0.05);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --electric-green: #00D084;
+        }
+
+        /* Light Theme Variables */
+        [data-theme="light"] {
+            --bg-primary: #f8fafc;
+            --bg-secondary: #f1f5f9;
+            --bg-card: rgba(0, 0, 0, 0.03);
+            --text-primary: #0f172a;
+            --text-secondary: rgba(15, 23, 42, 0.7);
+        }
+
+        /* Theme Toggle Styles */
+        .nav-btn {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+
+        [data-theme="light"] .nav-btn {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-btn:hover {
+            background: var(--electric-green);
+            color: #ffffff;
+        }
+
+        /* Show/hide icons based on theme */
+        [data-theme="light"] .moon-icon,
+        :root:not([data-theme="light"]) .sun-icon {
+            display: none;
+        }
+
+        [data-theme="light"] .sun-icon,
+        :root:not([data-theme="light"]) .moon-icon {
+            display: block;
+        }
+
+        .glass-card {
+            background: rgba(26, 43, 71, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .btn-glow {
+            background: linear-gradient(135deg, #00D084 0%, #00FF9D 100%);
+            color: #0A1628;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-glow:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 208, 132, 0.4);
+        }
+        
+        .section-card {
+            background: rgba(26, 43, 71, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            padding: 1.5rem;
+        }
+        
+        .metric-card {
+            background: rgba(0, 208, 132, 0.1);
+            border: 1px solid rgba(0, 208, 132, 0.3);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased text-white overflow-y-auto" style="background: var(--bg-primary);">
+    
+    <!-- Background video -->
+    <video class="fixed top-0 left-0 w-full h-full object-cover z-0" autoplay muted loop playsinline preload="auto">
+        <source src="bio/medical.mp4" type="video/mp4">
+    </video>
+    <div class="fixed top-0 left-0 w-full h-full z-[1] pointer-events-none" style="background: rgba(10, 22, 40, 0.65);"></div>
+    
+    <!-- Navigation with Logo and Theme Toggle -->
+    <div class="fixed top-6 left-6 right-6 z-50 flex items-center justify-between">
+        <!-- Logo and Back Button -->
+        <div class="flex items-center gap-4">
+            <a href="index.html" class="flex items-center gap-3 glass-card px-4 py-2 rounded-full">
+                <img src="logo/logo.png" alt="ZaZen Logo" class="h-8 w-auto">
+                <span class="font-bold text-lg hidden sm:block">ZaZen</span>
+            </a>
+            <button onclick="goBack()" class="glass-card px-4 py-2 rounded-full flex items-center gap-2 hover:bg-white/10 transition-colors cursor-pointer">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                </svg>
+                <span class="font-semibold">Back</span>
+            </button>
+        </div>
+
+        <!-- Theme Toggle -->
+        <button id="theme-toggle" class="nav-btn p-2 rounded-full transition-colors" aria-label="Toggle theme">
+            <svg class="w-5 h-5 sun-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+            </svg>
+            <svg class="w-5 h-5 moon-icon hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+            </svg>
+        </button>
+    </div>
+    
+    <script>
+        function goBack() {
+            // Try history.back() first for smoother navigation
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                // Fallback to index.html
+                window.location.href = 'index.html';
+            }
+        }
+
+        // Theme Toggle Functionality
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const html = document.documentElement;
+
+        // Check for saved theme preference or default to dark
+        const currentTheme = localStorage.getItem('theme') || 'dark';
+        if (currentTheme === 'light') {
+            html.setAttribute('data-theme', 'light');
+        }
+
+        function toggleTheme() {
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        if (themeToggleBtn) {
+            themeToggleBtn.addEventListener('click', toggleTheme);
+        }
+    </script>
+    
+    <!-- Content -->
+    <div class="relative z-20 min-h-screen p-6 md:p-12">
+        <div class="max-w-6xl mx-auto">
+            <!-- Best Use Image -->
+            <div class="mb-8">
+                <div class="glass-card rounded-3xl overflow-hidden">
+                    <img src="bio/pharmacetical.jpeg" alt="Pharmaceutical Storage Solution" class="w-full h-64 md:h-80 object-cover">
+                    <div class="p-6">
+                        <h1 class="text-3xl md:text-4xl font-display font-bold text-white mb-2 text-center">Pharmaceutical</h1>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Relevance Section -->
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="section-card">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
+                            <span class="text-xl">🎯</span>
+                        </div>
+                        <h2 class="text-xl font-semibold text-white">Why It Matters</h2>
+                    </div>
+                    <p class="text-white/70 leading-relaxed">
+                        Vaccines and temperature-sensitive medicines lose potency if exposed to temperature excursions. A single cold chain break can render entire batches unusable, costing lakhs and risking patient safety. Regulatory bodies like FSSAI and WHO mandate strict 2-8°C storage with continuous monitoring and documentation. Traditional cold storage lacks the precision and audit trails required for compliance.
+                    </p>
+                </div>
+                
+                <div class="section-card">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-electric-green/20 rounded-lg flex items-center justify-center">
+                            <span class="text-xl">⭐</span>
+                        </div>
+                        <h2 class="text-xl font-semibold text-white">Why ZaZen is Best Suited</h2>
+                    </div>
+                    <ul class="space-y-3 text-white/70">
+                        <li class="flex items-start gap-2">
+                            <span class="text-electric-green mt-1">✓</span>
+                            <span><strong class="text-white">±0.5°C Precision</strong> – Dual EEV technology with 8-10 NTC sensors ensures stable 2-8°C range</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-electric-green mt-1">✓</span>
+                            <span><strong class="text-white">AI-Powered IoT Cloud</strong> – Continuous logging with automated audit reports for regulatory compliance</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-electric-green mt-1">✓</span>
+                            <span><strong class="text-white">Real-time Alerts</strong> – Instant SMS/email notifications for any temperature deviation</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <span class="text-electric-green mt-1">✓</span>
+                            <span><strong class="text-white">Validation Ready</strong> – IQ/OQ/PQ documentation support for regulatory inspections</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Efficiency Gains -->
+            <div class="glass-card rounded-3xl p-8 mb-8">
+                <h2 class="text-2xl font-semibold text-white mb-6 text-center">Efficiency Gains with ZaZen</h2>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+                    <div class="metric-card">
+                        <div class="text-3xl font-bold text-electric-green mb-1">±0.5°C</div>
+                        <div class="text-white/60 text-sm">Precision</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="text-3xl font-bold text-electric-green mb-1">100%</div>
+                        <div class="text-white/60 text-sm">Compliance</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="text-3xl font-bold text-electric-green mb-1">₹5L+</div>
+                        <div class="text-white/60 text-sm">Waste Prevented</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="text-3xl font-bold text-electric-green mb-1">Zero</div>
+                        <div class="text-white/60 text-sm">Excursions</div>
+                    </div>
+                </div>
+                
+                <div class="bg-white/5 rounded-xl p-6">
+                    <h3 class="text-lg font-semibold text-white mb-3">Real Impact for Pharmaceutical Storage</h3>
+                    <p class="text-white/70 leading-relaxed">
+                        A mid-size pharmaceutical distributor prevents <strong class="text-electric-green">₹5+ lakhs in product waste</strong> annually with ZaZen's precision cooling. Our AI-driven predictive maintenance reduces downtime by <strong class="text-electric-green">95%</strong>, ensuring critical medicines remain at optimal temperature. With automated compliance reporting, save <strong class="text-electric-green">40+ man-hours monthly</strong> on manual temperature logging and documentation.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Key Features -->
+            <div class="flex flex-wrap gap-3 justify-center mb-8">
+                <span class="px-4 py-2 bg-blue-500/20 border border-blue-500/30 rounded-full text-sm text-white">GDP Compliant</span>
+                <span class="px-4 py-2 bg-blue-500/20 border border-blue-500/30 rounded-full text-sm text-white">Audit Trails</span>
+                <span class="px-4 py-2 bg-blue-500/20 border border-blue-500/30 rounded-full text-sm text-white">Real-time Monitoring</span>
+                <span class="px-4 py-2 bg-blue-500/20 border border-blue-500/30 rounded-full text-sm text-white">Validation Support</span>
+                <span class="px-4 py-2 bg-blue-500/20 border border-blue-500/30 rounded-full text-sm text-white">Backup Power Ready</span>
+            </div>
+            
+            <!-- CTA -->
+            <div class="text-center">
+                <a href="index.html#contact" class="btn-glow px-10 py-4 rounded-full font-semibold inline-flex items-center gap-2 text-lg">
+                    Get Compliance Consultation
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                    </svg>
+                </a>
+                <p class="mt-4 text-white/50 text-sm">Free regulatory compliance assessment</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

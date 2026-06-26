@@ -1,0 +1,4 @@
+root: D:\zazen_website 
+path: C:\Program Files\nodejs 
+arch: 64 
+proxy: none
